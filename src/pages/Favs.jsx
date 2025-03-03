@@ -4,6 +4,16 @@ import { useFav } from "../hooks/fav";
 export const Favs = () => {
   const { favs, remFav } = useFav();
 
+  if (favs.length === 0) {
+    return (
+      <div className="container mt-4">
+        <h1 className="mb-4">Favs</h1>
+        <div className="alert alert-info">
+          No favorites added yet. Start adding some!
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Favs</h1>

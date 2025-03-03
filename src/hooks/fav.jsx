@@ -6,9 +6,10 @@ export const FavProvider = ({ children }) => {
   const [favs, setFavs] = useState([]);
 
   const addFav = (item) => {
-    if (!favs.some(f => f.uid === item.uid)) {
-      setFavs([...favs, item]);
-    }
+    setFavs((prevFavs) => {
+        const exists = prevFavs.some(f => f.uid === item.uid);
+        return exists ? prevFavs : [...prevFavs, item];
+      });
   };
 
   const remFav = (uid) => {

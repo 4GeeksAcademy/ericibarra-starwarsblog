@@ -8,12 +8,21 @@ const EntityList = ({ type }) => {
   const { addFav } = useFav();
 
   useEffect(() => {
-    fetch(`https://www.swapi.tech/api/${type}`)
-      .then(res => res.json())
-      .then(data => {
-        setItems(data.results);
-        setLoading(false);
-      });
+	const fetchData = async () => {
+	  try {
+		const response = await fetch(`https://www.swapi.tech/api/${type}`);
+		if (!response.ok) throw new Error("Failed to fetch data");
+		const data = await response.json();
+		setItems(data.results);
+	  } catch (error) {
+		console.error("Error fetching data:", error);
+		setError("Failed to load data. Please try again later.");
+	  } finally {
+		setLoading(false);
+	  }
+	};
+  
+	fetchData();
   }, [type]);
 
   if (loading) return (
@@ -31,9 +40,6 @@ const EntityList = ({ type }) => {
           <div className="card h-100">
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
-              <p className="card-text">
-                <small className="text-muted">{type}</small>
-              </p>
               <div className="d-flex justify-content-between align-items-center">
                 <Link 
                   to={`/detail/${type}/${item.uid}`}
