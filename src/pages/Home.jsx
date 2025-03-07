@@ -30,9 +30,6 @@ const EntityList = ({ type }) => {
             <div className="card h-100">
               <div className="card-body">
                 <h5 className="card-title">{item.name}</h5>
-                <p className="card-text">
-                  <small className="text-muted">{type}</small>
-                </p>
                 <div className="d-flex justify-content-between align-items-center">
                   <Link 
                     to={`/detail/${type}/${item.uid}`}
