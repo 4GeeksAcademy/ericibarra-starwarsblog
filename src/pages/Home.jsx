@@ -9,17 +9,27 @@ const EntityList = ({ type }) => {
   const { addFav } = useFav();
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`https://www.swapi.tech/api/${type}?page=${page}&limit=10`)
-      .then(res => res.json())
-      .then(data => {
+    const fetchData = async () => {
+      const cachedData = localStorage.getItem(`starWarsData-${type}-${page}`);
+      if (cachedData) {
+        setItems(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
+      try{
+        const response = await fetch(`https://www.swapi.tech/api/${type}?page=${page}&limit=10`);
+        const data = await response.json();
         setItems(data.results);
-        setLoading(false);
-      })
-      .catch(error => {
+        localStorage.setItem(`starWarsData-${type}-${page}`, JSON.stringify(data.results));
+      } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, [type, page]);
 
   return (

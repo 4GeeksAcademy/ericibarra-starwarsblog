@@ -23,9 +23,6 @@ export const Favs = () => {
             <div className="card h-100">
               <div className="card-body">
                 <h5 className="card-title">{f.name}</h5>
-                <p className="card-text">
-                  <small className="text-muted">{f.type}</small>
-                </p>
                 <div className="d-flex justify-content-between align-items-center">
                   <Link 
                     to={`/detail/${f.type}/${f.uid}`}
